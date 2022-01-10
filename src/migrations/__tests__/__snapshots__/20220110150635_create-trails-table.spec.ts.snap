@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#down should match SQL snapshot 1`] = `"drop table \\"trails\\""`;
+
+exports[`#up should match SQL snapshot 1`] = `
+"create table \\"trails\\" (\\"id\\" text, \\"url\\" text null, \\"created_at\\" timestamptz default CURRENT_TIMESTAMP, \\"expire_at\\" timestamptz) 
+alter table \\"trails\\" add constraint \\"trails_pkey\\" primary key (\\"id\\")"
+`;
