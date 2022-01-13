@@ -4,15 +4,17 @@
   "description": "A simple URL shortener which guide you toward the right way.",
   "main": "bin/start",
   "scripts": {
-    "build": "npm run clean && babel src -d lib --ignore **/__tests__ --copy-files --extensions .ts",
+    "build": "npm run clean && babel src -d lib --copy-files --no-copy-ignored --extensions .ts",
     "clean": "rimraf lib",
     "dev": "cross-env NODE_ENV=development nodemon bin/start",
     "start": "node bin/start",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "prettier --write **/*.{ts,js,md,json}",
-    "typecheck": "tsc --noEmit",
-    "format": "npm run typecheck && npm run prettier && npm run lint:fix",
+    "type-check": "tsc --noEmit",
+    "format": "npm run prettier && npm run lint:fix",
+    "test": "npm run type-check && npm run lint && npm run test-only",
+    "test-only": "cross-env NODE_ENV=test jest",
     "migrate:make": "knex --knexfile src/knexfile migrate:make -x ts",
     "migrate:latest": "knex --knexfile src/knexfile migrate:latest",
     "migrate:rollback": "knex --knexfile src/knexfile migrate:rollback"
@@ -41,6 +43,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@babel/register": "^7.16.7",
     "@types/ioredis": "^4.28.7",
+    "@types/ioredis-mock": "^5.6.0",
     "@types/jest": "^27.4.0",
     "@types/koa": "^2.13.4",
     "@types/koa-bodyparser": "^4.3.5",
@@ -49,6 +52,7 @@
     "@types/koa__router": "^8.0.11",
     "@types/mock-knex": "^0.4.3",
     "@types/node": "^17.0.8",
+    "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
     "cross-env": "^7.0.3",
@@ -57,20 +61,33 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
+    "ioredis-mock": "^5.8.1",
     "jest": "^27.4.7",
     "mock-knex": "^0.4.10",
+    "mockdate": "^3.0.5",
     "nodemon": "^2.0.15",
     "pino-pretty": "^7.3.0",
     "prettier": "^2.5.1",
+    "supertest": "^6.2.1",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
+  },
+  "nodemonConfig": {
+    "ext": "ts,js,json"
   },
   "prettier": {
     "trailingComma": "es5",
     "singleQuote": true
   },
   "jest": {
+    "testPathIgnorePatterns": [
+      "lib"
+    ],
+    "setupFiles": [
+      "./test/configure-env.ts",
+      "./test/setup-test.ts"
+    ],
     "preset": "ts-jest",
     "globals": {
       "ts-jest": {
@@ -86,6 +103,11 @@
     }
   },
   "babel": {
+    "ignore": [
+      "**/*.spec.ts",
+      "**/*.spec.ts.snap",
+      "test/*"
+    ],
     "presets": [
       [
         "@babel/preset-env",

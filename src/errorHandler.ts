@@ -2,6 +2,7 @@ import { Middleware } from 'koa';
 import Joi from 'joi';
 
 const isDeveloping = process.env.NODE_ENV === 'development';
+const isTesting = process.env.NODE_ENV === 'test';
 
 const errorHandler: Middleware = async (ctx, next) => {
   try {
@@ -29,7 +30,9 @@ const errorHandler: Middleware = async (ctx, next) => {
       }
     }
 
-    ctx.app.emit('error', error, ctx);
+    if (!isTesting) {
+      ctx.app.emit('error', error, ctx);
+    }
   }
 };
 

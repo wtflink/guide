@@ -23,7 +23,7 @@ module.exports = {
     ],
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.spec.ts', '**/*.spec.js', '/bin/*'] },
+      { devDependencies: ['**/*.spec.ts', '**/*.spec.js', '/bin/*', 'test/*.ts'] },
     ],
     '@typescript-eslint/no-var-requires': 'off',
   },

@@ -1,14 +1,10 @@
 import mockKnex from 'mock-knex';
 
-import _knex from 'knex';
-
-import config from '../../knexfile';
+import knex from '../../knex';
 
 import { up, down } from '../20220110150635_create-trails-table';
 
 let tracker: mockKnex.Tracker;
-
-const knex = _knex(config);
 
 beforeAll(() => {
   mockKnex.mock(knex);
