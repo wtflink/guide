@@ -43,7 +43,7 @@ describe('#GET /', () => {
   });
 });
 
-describe('#GET /:url_id', () => {
+describe('#GET /:trail_id', () => {
   it('should get redirect when found matched trailId', async () => {
     mockedGetTrailUrl.mockResolvedValue(TEST_URL);
 
@@ -78,7 +78,7 @@ describe('#GET /:url_id', () => {
     expect(res.status).toEqual(400);
     expect(res.body).toEqual({
       error: {
-        message: `"url_id" with value "${INVALID_ID}" fails to match the required pattern`,
+        message: `"trail_id" with value "${INVALID_ID}" fails to match the required pattern`,
       },
     });
   });

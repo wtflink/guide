@@ -212,7 +212,7 @@ describe('#createTrail', () => {
       [
         () => {
           expect(query).toMatchObject({
-            sql: 'insert into "trails" ("expire_at", "id", "url") values (DEFAULT, $1, $2) returning "id", "expire_at"',
+            sql: 'insert into "trails" ("expire_at", "id", "url") values (DEFAULT, $1, $2) on conflict ("id") do nothing returning "id", "expire_at"',
             bindings: [TEST_ID, TEST_URL],
           });
 
@@ -249,7 +249,7 @@ describe('#createTrail', () => {
       [
         () => {
           expect(query).toMatchObject({
-            sql: 'insert into "trails" ("expire_at", "id", "url") values ($1, $2, $3) returning "id", "expire_at"',
+            sql: 'insert into "trails" ("expire_at", "id", "url") values ($1, $2, $3) on conflict ("id") do nothing returning "id", "expire_at"',
             bindings: [TEST_EXPIRE_AT, TEST_ID, TEST_URL],
           });
 

@@ -19,15 +19,17 @@ router.get('/', (ctx) => {
 });
 
 router.get(
-  '/:url_id',
+  '/:trail_id',
   compose([
     validator({
       params: Joi.object().keys({
-        url_id: Joi.string().regex(new RegExp(`^[${AVAILABLE_CHARACTERS}]+$`)),
+        trail_id: Joi.string().regex(
+          new RegExp(`^[${AVAILABLE_CHARACTERS}]+$`)
+        ),
       }),
     }),
     async (ctx: RouterContext) => {
-      const { url_id: trailId } = ctx.params;
+      const { trail_id: trailId } = ctx.params;
 
       const trailUrl = await getTrailUrl(trailId);
 
