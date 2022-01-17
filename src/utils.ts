@@ -82,7 +82,8 @@ export const createTrail = async ({
     .returning(['id', 'expire_at']);
 
   if (!trail) {
-    // FIXME: handle on conflict case
+    // TODO: handle on conflict better
+    throw new Error('trail id conflict');
   }
 
   const expireTimeInSec = trail.expire_at

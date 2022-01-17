@@ -22,6 +22,11 @@ const errorHandler: Middleware = async (ctx, next) => {
 
       ctx.response.status = 400;
       ctx.response.body = { error: { message } };
+    } else if (error.message === 'trail id conflict') {
+      ctx.response.status = 500;
+      ctx.response.body = {
+        error: { message: 'trail create failed, please try again later' },
+      };
     } else {
       ctx.response.status = 500;
 
